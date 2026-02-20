@@ -55,6 +55,14 @@
             Console.Write("(E)XIT");
         }
 
+        public void Ask960()
+        {
+            Paint.DefaultBackground();
+            Paint.WhiteText();
+            SetCursorMinMax(22, 2);
+            Console.Write("DO YOU WANT TO PLAY CHESS960? (Y/N)");
+        }
+
         public void Stats(Player playerOne, Player playerTwo)
         {
             Paint.DefaultBackground();

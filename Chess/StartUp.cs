@@ -11,15 +11,30 @@
     {
         public static void Main()
         {
+            var is960 = false;
             Print printer = Factory.GetPrint();
             Draw drawer = Factory.GetDraw();
-
+            printer.Ask960();
+            var option2 = Console.ReadKey().Key;
+                switch (option2)
+                {
+                    case ConsoleKey.Y:
+                        is960 = true;
+                        break;
+                    case ConsoleKey.N:
+                        is960 = false;
+                        break;
+                    default:
+                        Console.Clear();
+                        printer.ErrorWindow();
+                        return;
+            }
             try
             {
                 Console.Clear();
                 printer.Header();
                 drawer.BoardEmpty(Color.Light);
-
+                
                 while (true)
                 {
                     printer.Menu();
@@ -30,7 +45,10 @@
                         case ConsoleKey.N:
                             {
                                 Game game = Factory.GetGame();
-
+                                if (is960)
+                                {
+                                    game.Enable960();
+                                }
                                 game.GetPlayers();
                                 game.New();
                                 game.OnGameOver += Game_OnGameOver;

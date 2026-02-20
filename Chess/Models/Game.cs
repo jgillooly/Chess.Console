@@ -10,6 +10,7 @@
     {
         private Print printer;
         private Draw drawer;
+        private bool is960 = false;
 
         public Game()
         {
@@ -47,6 +48,10 @@
 
         public void New()
         {
+            if (this.is960)
+            {
+                this.ChessBoard.Enable960();
+            }
             this.ChessBoard.Initialize();
 
             this.printer.Stats(this.MovingPlayer, this.Opponent);
@@ -95,6 +100,11 @@
                 this.Player2.HasToMove = false;
                 this.Player1.HasToMove = true;
             }
+        }
+
+        public void Enable960()
+        {
+            this.is960 = true;
         }
     }
 }

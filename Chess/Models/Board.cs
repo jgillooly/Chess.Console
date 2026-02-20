@@ -18,6 +18,7 @@
         private Draw drawer;
         private Queue<string> movesQueue;
         private string[] movesArray;
+        private bool is960 = false;
 
         private string[] letters = new string[] { "A", "B", "C", "D", "E", "F", "G", "H" };
 
@@ -97,6 +98,10 @@
 
         public void Initialize()
         {
+            if (is960) 
+            {
+                this.Setup960();
+            }
             var toggle = Color.Light;
 
             for (int row = 0; row < Globals.BoardRows; row++)
@@ -434,6 +439,43 @@
             }
 
             return null;
+        }
+
+        private void Setup960()
+        {
+            Random random = new Random((int)DateTime.Now.Ticks);
+            
+            List<string> remainingWhiteLocations = new List<string>() { "A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1" };
+            List<string> remainingBlackLocations = new List<string>() { "A8", "B8", "C8", "D8", "E8", "F8", "G8", "H8" };
+            List<Piece> remainingWhitePieces = new List<Piece>() { new Rook(Color.Light), new Knight(Color.Light), new Bishop(Color.Light), new Queen(Color.Light), new King(Color.Light), new Bishop(Color.Light), new Knight(Color.Light), new Rook(Color.Light) };
+            List<Piece> remainingBlackPieces = new List<Piece>() { new Rook(Color.Dark), new Knight(Color.Dark), new Bishop(Color.Dark), new Queen(Color.Dark), new King(Color.Dark), new Bishop(Color.Dark), new Knight(Color.Dark), new Rook(Color.Dark) };
+            setup = new Dictionary<string, Piece>()
+        {
+
+            { "A2", new Pawn(Color.Light) },  { "B2", new Pawn(Color.Light) },   { "C2", new Pawn(Color.Light) },   { "D2", new Pawn(Color.Light) },
+            { "E2", new Pawn(Color.Light) },  { "F2", new Pawn(Color.Light) },   { "G2", new Pawn(Color.Light) },   { "H2", new Pawn(Color.Light) },
+
+
+            { "A7", new Pawn(Color.Dark) },  { "B7", new Pawn(Color.Dark) },   { "C7", new Pawn(Color.Dark) },   { "D7", new Pawn(Color.Dark) },
+            { "E7", new Pawn(Color.Dark) },  { "F7", new Pawn(Color.Dark) },   { "G7", new Pawn(Color.Dark) },   { "H7", new Pawn(Color.Dark) }
+        };
+            foreach (var piece in remainingWhitePieces)
+            {
+                string location = remainingWhiteLocations[random.Next(remainingWhiteLocations.Count)];
+                setup[location] = piece;
+                remainingWhiteLocations.Remove(location);
+            }
+            foreach (var piece in remainingBlackPieces)
+            {
+                string location = remainingBlackLocations[random.Next(remainingBlackLocations.Count)];
+                setup[location] = piece;
+                remainingBlackLocations.Remove(location);
+            }
+        }
+
+        public void Enable960()
+        {
+            this.is960 = true;
         }
 
         #region IsOpponentCheckmate Methods
